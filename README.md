@@ -1,6 +1,23 @@
 # Employee Management System
 
-This is a simple Employee Management System built with Spring Boot.
+This is a simple Employee Management System built with Spring Boot. It allows for basic CRUD operations on employees, as well as managing departments, job titles, attendance, and leave requests.
+
+## Project Structure
+
+The project is structured as follows:
+
+- `src/main/java/com/project/ems`:
+    - `controller`: Contains the REST controllers for handling API requests.
+    - `dto`: Contains the Data Transfer Objects (DTOs) used for transferring data between the client and the server.
+    - `entity`: Contains the JPA entities that map to the database tables.
+    - `exception`: Contains custom exception classes and a central exception handler.
+    - `repository`: Contains the Spring Data JPA repositories for database operations.
+    - `service`: Contains the business logic of the application.
+    - `utility`: Contains utility classes for converting between DTOs and entities.
+- `src/main/resources`:
+    - `application.properties`: Contains the application configuration.
+    - `data.sql`: Contains sample data for the database.
+    - `message.properties`: Contains error messages.
 
 ## Annotations Used
 

@@ -8,6 +8,8 @@ import com.project.ems.utility.DTOToEntity;
 import com.project.ems.utility.EntityToDTO;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,13 +17,16 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Service(value = "employeeService")
+@PropertySource("classpath:message.properties")
 public class EmployeeServiceImpl implements EmployeeService {
 
     private EmployeeDAO employeeDAO;
+    private Environment environment;
 
     @Autowired
-    public EmployeeServiceImpl(EmployeeDAO employeeDAO) {
+    public EmployeeServiceImpl(EmployeeDAO employeeDAO, Environment environment) {
         this.employeeDAO = employeeDAO;
+        this.environment = environment;
     }
 
     @Override
@@ -31,14 +36,14 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .filter(Objects::nonNull)
                 .map(EntityToDTO::convertToEmployeeDto)
                 .toList();
-        if(employeeDTOList.isEmpty()) throw new EmployeeException("{employee.not.found}");
+        if(employeeDTOList.isEmpty()) throw new EmployeeException("List is not found");
         return employeeDTOList;
     }
 
     @Override
     public EmployeeDTO getEmployeeById(Long employeeId) throws EmployeeException {
         Optional<Employee> employeeOptional = employeeDAO.findById(employeeId);
-        Employee employee = employeeOptional.orElseThrow(() -> new EmployeeException("List is not found"));
+        Employee employee = employeeOptional.orElseThrow(() -> new EmployeeException(environment.getProperty("employee.not.found")));
         return EntityToDTO.convertToEmployeeDto(employee);
 
     }
@@ -47,7 +52,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Transactional
     public Long addEmployee(EmployeeDTO employeeDTO) throws EmployeeException {
         Optional<Employee> employeeOptional = employeeDAO.findById(employeeDTO.getId());
-        if(employeeOptional.isPresent()) throw new EmployeeException("{employee.already.exists}");
+        if(employeeOptional.isPresent()) throw new EmployeeException(environment.getProperty("employee.already.exists"));
         Employee employee = DTOToEntity.convertToEmployee(employeeDTO);
         return employeeDAO.save(employee).getId();
     }
@@ -61,7 +66,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Transactional
     public Long deleteEmployee(Long employeeId) throws EmployeeException {
         Optional<Employee> employeeOptional = employeeDAO.findById(employeeId);
-        Employee employee = employeeOptional.orElseThrow(() -> new EmployeeException("{employee.not.found}"));
+        Employee employee = employeeOptional.orElseThrow(() -> new EmployeeException(environment.getProperty("employee.not.found")));
         employeeDAO.delete(employee);
         return employeeId;
     }
