@@ -1,9 +1,12 @@
 package com.project.ems.exception;
 
-import java.time.LocalDateTime;
+import lombok.Data;
 
+import java.time.LocalDateTime;
+@Data
 public class ErrorInfo {
 //    private String
     private String errorMessage;
-    private LocalDateTime dateTime;
+    private LocalDateTime timeStamp;
+    private Integer errorCode;
 }

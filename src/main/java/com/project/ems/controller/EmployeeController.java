@@ -6,6 +6,7 @@ import com.project.ems.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,7 +35,7 @@ public class EmployeeController {
     }
 
     @PostMapping(value = "/employees")
-    public ResponseEntity<String> addEmployee(@RequestBody EmployeeDTO employeeDTO) throws EmployeeException {
+    public ResponseEntity<String> addEmployee(@Valid @RequestBody EmployeeDTO employeeDTO) throws EmployeeException {
         Long employeeId = employeeService.addEmployee(employeeDTO);
         String responseMessage = employeeId + " successfully added";
         return new ResponseEntity<>(responseMessage, HttpStatus.CREATED);
