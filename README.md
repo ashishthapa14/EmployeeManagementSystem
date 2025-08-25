@@ -1,91 +1,68 @@
 # Employee Management System
 
-This is a simple Employee Management System built with Spring Boot. It allows for basic CRUD operations on employees, as well as managing departments, job titles, attendance, and leave requests.
+This is a simple Employee Management System built with Spring Boot. It allows for basic CRUD operations on employees.
 
-## Project Structure
+## Features
 
-The project is structured as follows:
+*   List all employees
+*   Add a new employee
+*   Update an existing employee
+*   Delete an employee
 
-- `src/main/java/com/project/ems`:
-    - `controller`: Contains the REST controllers for handling API requests.
-    - `dto`: Contains the Data Transfer Objects (DTOs) used for transferring data between the client and the server.
-    - `entity`: Contains the JPA entities that map to the database tables.
-    - `exception`: Contains custom exception classes and a central exception handler.
-    - `repository`: Contains the Spring Data JPA repositories for database operations.
-    - `service`: Contains the business logic of the application.
-    - `utility`: Contains utility classes for converting between DTOs and entities.
-- `src/main/resources`:
-    - `application.properties`: Contains the application configuration.
-    - `data.sql`: Contains sample data for the database.
-    - `message.properties`: Contains error messages.
+## Technologies Used
 
-## Annotations Used
+*   Java 17
+*   Spring Boot
+*   Spring Data JPA
+*   Thymeleaf
+*   MySQL
+*   Maven
+*   Lombok
 
-### Spring Framework Annotations
+## Setup and Installation
 
-- `@SpringBootApplication`: This is a convenience annotation that adds all of the following:
-    - `@Configuration`: Tags the class as a source of bean definitions for the application context.
-    - `@EnableAutoConfiguration`: Tells Spring Boot to start adding beans based on classpath settings, other beans, and various property settings.
-    - `@ComponentScan`: Tells Spring to look for other components, configurations, and services in the `com/project/ems` package, allowing it to find and register the controllers.
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/your-username/EmployeeManagementSystem.git
+    ```
+2.  **Navigate to the project directory:**
+    ```bash
+    cd EmployeeManagementSystem
+    ```
+3.  **Update the database configuration:**
+    Open `src/main/resources/application.properties` and update the following properties with your MySQL database credentials:
+    ```properties
+    spring.datasource.url=jdbc:mysql://localhost:3306/your-database-name
+    spring.datasource.username=your-username
+    spring.datasource.password=your-password
+    ```
+4.  **Run the application:**
+    ```bash
+    ./mvnw spring-boot:run
+    ```
+    The application will be available at `http://localhost:8080`.
 
-- `@Service`: Indicates that an annotated class is a "Service". This annotation serves as a specialization of `@Component`, allowing for implementation classes to be autodetected through classpath scanning.
+## API Endpoints
 
-- `@Autowired`: Marks a constructor, field, setter method, or config method as to be autowired by Spring's dependency injection facilities.
+The application provides the following RESTful endpoints:
 
-- `@Override`: A Java annotation that indicates that a method is intended to override a method in a superclass.
+### Web (Thymeleaf)
 
-- `@Transactional`: A Spring annotation that declares that a method or class should be executed within a database transaction.
+*   `GET /api/list`: Displays a list of all employees.
+*   `GET /api/showFormForAdd`: Displays a form to add a new employee.
+*   `POST /api/save`: Saves a new or updated employee.
+*   `GET /api/showFormForUpdate?employeeId={id}`: Displays a form to update an existing employee.
+*   `GET /api/delete?employeeId={id}`: Deletes an employee.
 
-- `@Repository`: Indicates that an annotated class is a "Repository". This annotation serves as a specialization of `@Component`, allowing for implementation classes to be autodetected through classpath scanning. It's a good practice to apply this annotation to DAO classes.
+### REST API
 
-- `@RestControllerAdvice`: A specialization of the `@Component` annotation which allows to handle exceptions across the whole application in one global handling component.
+*   `GET /api/employees`: Returns a list of all employees.
+*   `GET /api/employees/{id}`: Returns a specific employee by their ID.
+*   `POST /api/employees`: Adds a new employee.
+*   `DELETE /api/employees/{id}`: Deletes an employee by their ID.
 
-- `@RestController`: A convenience annotation that is itself annotated with `@Controller` and `@ResponseBody`. This annotation is applied to a class to mark it as a request handler.
+## Usage
 
-- `@RequestMapping`: An annotation for mapping web requests onto methods in request-handling classes with flexible method signatures.
+You can use the web interface to manage employees by navigating to `http://localhost:8080/api/list`.
 
-- `@GetMapping`: A specialized version of `@RequestMapping` that acts as a shortcut for `@RequestMapping(method = RequestMethod.GET)`.
-
-- `@PostMapping`: A specialized version of `@RequestMapping` that acts as a shortcut for `@RequestMapping(method = RequestMethod.POST)`.
-
-- `@DeleteMapping`: A specialized version of `@RequestMapping` that acts as a shortcut for `@RequestMapping(method = RequestMethod.DELETE)`.
-
-- `@PathVariable`: An annotation which indicates that a method parameter should be bound to a URI template variable.
-
-- `@RequestBody`: An annotation indicating a method parameter should be bound to the body of the web request.
-
-### Lombok Annotations
-
-- `@Data`: A convenience annotation that bundles the features of `@ToString`, `@EqualsAndHashCode`, `@Getter` / `@Setter` and `@RequiredArgsConstructor` together.
-
-- `@AllArgsConstructor`: Generates a constructor with 1 parameter for each field in your class.
-
-- `@NoArgsConstructor`: Generates a constructor with no parameters.
-
-- `@Builder`: A helper annotation from Lombok that produces complex builder APIs for your classes.
-
-- `@Getter`: A Lombok annotation to generate the getter methods for all fields.
-
-- `@Setter`: A Lombok annotation to generate the setter methods for all fields.
-
-### JPA Annotations
-
-- `@Entity`: Specifies that the class is an entity. This annotation is applied to the entity class.
-
-- `@Table`: Specifies the table in the database with which this entity is mapped.
-
-- `@Id`: Specifies the primary key of an entity.
-
-- `@GeneratedValue`: Provides for the specification of generation strategies for the values of primary keys.
-
-- `@ManyToOne`: Specifies a single-valued association to another entity class that has many-to-one multiplicity.
-
-- `@JoinColumn`: Specifies a column for joining an entity association or element collection.
-
-- `@Column`: Is used to specify the mapped column for a persistent property or field.
-
-- `@Enumerated`: Specifies that a persistent property or field should be persisted as an enumerated type.
-
-### Jackson Annotations
-
-- `@JsonProperty`: A Jackson annotation used to map property names with JSON keys during serialization and deserialization.
+Alternatively, you can use a tool like Postman or curl to interact with the REST API.

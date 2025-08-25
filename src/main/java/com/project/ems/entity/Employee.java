@@ -1,23 +1,24 @@
 package com.project.ems.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.proxy.HibernateProxy;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Objects;
 
-@Data
+@Getter
+@Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
 @Builder
+@Entity
 public class Employee {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(nullable = false,length = 50)
@@ -29,25 +30,34 @@ public class Employee {
     @Column(nullable = false,length = 100,unique = true)
     private String email;
 
-    @Column(length = 20)
+    @Column(length = 20,unique = true)
     private String phone;
 
     @Column(nullable = false)
     private LocalDate hireDate;
 
-    @ManyToOne
-    @JoinColumn(name = "department_id")
-    private Department department;
+    @Column(length = 100)
+    private String department;
 
-    @ManyToOne
-    @JoinColumn(name = "job_title_id")
-    private JobTitle jobTitle;
+    @Column(name = "job_titled", nullable = false,length = 100)
+    private String jobTitle;
 
     @Column(precision = 10, scale = 2)
     private BigDecimal currentSalary;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private EmployeeStatus employeeStatus = EmployeeStatus.ACTIVE;
+    @Override
+    public final boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null) return false;
+        Class<?> oEffectiveClass = o instanceof HibernateProxy ? ((HibernateProxy) o).getHibernateLazyInitializer().getPersistentClass() : o.getClass();
+        Class<?> thisEffectiveClass = this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass() : this.getClass();
+        if (thisEffectiveClass != oEffectiveClass) return false;
+        Employee employee = (Employee) o;
+        return getId() != null && Objects.equals(getId(), employee.getId());
+    }
 
+    @Override
+    public final int hashCode() {
+        return this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode() : getClass().hashCode();
+    }
 }

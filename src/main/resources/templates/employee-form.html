@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Form</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+<body class="bg-light">
+<div class="container mt-5">
+    <div class="card shadow-lg rounded-lg">
+        <div class="card-header">
+            <h1 class="text-center text-primary">Add or Update Employee</h1>
+        </div>
+        <div class="card-body">
+            <form action="#" th:action="@{/api/save}" th:object="${employeeDTO}" method="post">
+
+                <input type="hidden" th:field = "*{id}">
+
+                <div class="form-group">
+                    <label for="firstName">First Name</label>
+                    <input id="firstName" type="text" th:field="*{firstName}" placeholder="First Name" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label for="lastName">Last Name</label>
+                    <input id="lastName" type="text" th:field="*{lastName}" placeholder="Last Name" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input id="email" type="email" th:field="*{email}" placeholder="Email" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone</label>
+                    <input id="phone" type="number" th:field="*{phone}" placeholder="Phone" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label for="hireDate">Hire Date</label>
+                    <input id="hireDate" type="date" th:field="*{hireDate}" value="2025-08-25" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label for="department">Department</label>
+                    <select id="department" th:field="*{departmentDTO}" class="form-control">
+                        <option value="">Select Department</option>
+                        <option value="Human Resources">Human Resources</option>
+                        <option value="Finance">Finance</option>
+                        <option value="IT">IT</option>
+                        <option value="Marketing">Marketing</option>
+                        <option value="Sales">Sales</option>
+                        <option value="Operations">Operations</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="jobTitle">Job Title</label>
+                    <select id="jobTitle" th:field="*{jobTitleIdDTO}" class="form-control">
+                        <option value="">Select Job Title</option>
+                        <option value="Manager">Manager</option>
+                        <option value="Developer">Developer</option>
+                        <option value="Designer">Designer</option>
+                        <option value="Analyst">Analyst</option>
+                        <option value="HR Generalist">HR Generalist</option>
+                        <option value="Accountant">Accountant</option>
+                    </select>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <button type="submit" class="btn btn-primary btn-block">Save</button>
+                    </div>
+                    <div class="col-md-6">
+                        <a href="#" class="btn btn-secondary btn-block">Cancel</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
